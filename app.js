@@ -1,9 +1,21 @@
+function openSideMenu() {
+  document.getElementById('side-menu').style.width = '250px';
+
+  document.getElementById('main').style.marginLeft = '250px';
+}
+
+function closeSideMenu() {
+  document.getElementById('side-menu').style.width = '0px';
+
+  document.getElementById('main').style.marginLeft = '0px';
+}
+
 mapboxgl.accessToken =
   'pk.eyJ1IjoieWxpam9raWMiLCJhIjoiY2p6YXMzOWYyMDA0bTNocnBkcWE5bThvbSJ9.tIcLrrsbnckIrFS_4D8Sug';
 
 const map = new mapboxgl.Map({
   container: 'map', // Container ID
-  style: 'mapbox://styles/mapbox/dark-v10', // Map style to use
+  style: 'mapbox://styles/mapbox/outdoors-v11', // Map style to use
   center: [-122.675, 45.5051], // Starting position [lng, lat]
   zoom: 12 // Starting zoom level
 });

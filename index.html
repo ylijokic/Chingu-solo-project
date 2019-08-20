@@ -26,7 +26,37 @@
     <title>Charlie Ylijoki's Solo Project</title>
   </head>
   <body>
-    <div id="map"></div>
+    <header>
+      <nav class="navbar">
+        <span class="open-slide">
+          <a href="#" onclick="openSideMenu()">
+            <svg width="30" height="30">
+              <path d="M0, 5 30, 5" stroke="#fff" stroke-width="5" />
+              <path d="M0, 14 30, 14" stroke="#fff" stroke-width="5" />
+              <path d="M0, 23 30, 23" stroke="#fff" stroke-width="5" />
+            </svg>
+          </a>
+        </span>
+
+        <ul class="navbar-nav">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div id="side-menu" class="side-nav">
+        <a href="#" class="btn-close" onclick="closeSideMenu()">&times;</a>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+    </header>
+    <div id="main">
+      <div id="map"></div>
+    </div>
 
     <script src="app.js"></script>
   </body>
