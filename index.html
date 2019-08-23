@@ -8,20 +8,12 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js"></script>
-
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.1/mapbox-gl.js"></script>
     <link
-      href="https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css"
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.1/mapbox-gl.css"
       rel="stylesheet"
     />
 
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js"></script>
-
-    <link
-      rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css"
-      type="text/css"
-    />
     <link rel="stylesheet" href="main.css" />
     <title>Charlie Ylijoki's Solo Project</title>
   </head>
@@ -37,27 +29,29 @@
             </svg>
           </a>
         </span>
-
-        <ul class="navbar-nav">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
+        <ul class="navbar-nav"></ul>
       </nav>
 
       <div id="side-menu" class="side-nav">
-        <a href="#" class="btn-close" onclick="closeSideMenu()">&times;</a>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
+        <a href="#" id="btn-close" onclick="closeSideMenu()">&times;</a>
+        <input
+          id="menu-filter"
+          type="search"
+          results="5"
+          name="filter"
+          id="trailFilter"
+          placeholder="Search Trails..."
+        />
+        <h3>List of Trails:</h3>
+        <div id="menu-item"></div>
       </div>
     </header>
+
     <div id="main">
       <div id="map"></div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="/JS/app.js"></script>
+    <script src="/JS/navBar.js"></script>
   </body>
 </html>
