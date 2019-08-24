@@ -36,11 +36,12 @@
         <a href="#" id="btn-close" onclick="closeSideMenu()">&times;</a>
         <input
           id="menu-filter"
-          type="search"
+          type="text"
           results="5"
           name="filter"
           id="trailFilter"
           placeholder="Search Trails..."
+          onkeyup="filterInput()"
         />
         <h3>List of Trails:</h3>
         <div id="menu-item"></div>

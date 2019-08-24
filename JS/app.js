@@ -104,6 +104,9 @@ const markers = {
   ]
 };
 
+const layerIDs = [];
+const inputText = document.getElementById('menu-filter');
+
 mapboxgl.accessToken =
   'pk.eyJ1IjoieWxpam9raWMiLCJhIjoiY2p6YXMzOWYyMDA0bTNocnBkcWE5bThvbSJ9.tIcLrrsbnckIrFS_4D8Sug';
 
@@ -132,6 +135,7 @@ map.on('load', () => {
 
   markers.features.forEach(feature => {
     let item = document.createElement('a');
+    item.className = 'menu-items';
     let name = feature.properties.name;
     item.textContent = name;
     item.addEventListener('click', () => {
@@ -140,15 +144,53 @@ map.on('load', () => {
       popup.addTo(map);
     });
     menuItems.appendChild(item);
+
+    map.addLayer({
+      id: name,
+      source: 'markers',
+      type: 'circle',
+      paint: {
+        'circle-radius': 10,
+        'circle-color': '#BADA55'
+      }
+    });
+    layerIDs.push(name);
   });
 
-  map.addLayer({
-    id: 'points',
-    source: 'markers',
-    type: 'circle',
-    paint: {
-      'circle-radius': 10,
-      'circle-color': '#BADA55'
+  // map.addLayer({
+  //   id: 'points',
+  //   source: 'markers',
+  //   type: 'circle',
+  //   paint: {
+  //     'circle-radius': 10,
+  //     'circle-color': '#BADA55'
+  //   }
+  // });
+});
+
+function filterInput() {
+  let input = document.getElementById('menu-filter').value;
+  input = input.toLowerCase();
+  let names = document.getElementsByClassName('menu-items');
+
+  for (let i = 0; i < names.length; i++) {
+    if (!names[i].innerHTML.toLowerCase().includes(input)) {
+      names[i].style.display = 'none';
+    } else {
+      names[i].style.display = 'list-item';
     }
+  }
+}
+
+inputText.addEventListener('keyup', function(e) {
+  // If the input value matches a layerID set
+  // it's visibility to 'visible' or else hide it.
+  let value = e.target.value.trim().toLowerCase();
+  layerIDs.forEach(name => {
+    map.setLayoutProperty(
+      name,
+      'visibility',
+      name.indexOf(value) > -1 ? 'visible' : 'none'
+    );
   });
 });
