@@ -4,7 +4,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Council Crest Park'
+        name: 'Council Crest Park',
+        activities: ['Hiking', 'Biking', 'Sightseeing']
       },
       geometry: {
         type: 'Point',
@@ -14,7 +15,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Pittock Mansion Trail'
+        name: 'Pittock Mansion',
+        activities: ['Hiking']
       },
       geometry: {
         type: 'Point',
@@ -24,7 +26,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Audubon Society Trails'
+        name: 'Audubon Society',
+        activities: ['Hiking', 'Bird Watching']
       },
       geometry: {
         type: 'Point',
@@ -34,7 +37,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Wildwood Trail'
+        name: 'Wildwood Trail at Forest Park',
+        activities: ['Hiking', 'Trail Running', 'Mountain Biking']
       },
       geometry: {
         type: 'Point',
@@ -44,7 +48,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Tryon Creek State Park'
+        name: 'Tryon Creek State Park',
+        activities: ['Hiking', 'Bird Watching']
       },
       geometry: {
         type: 'Point',
@@ -54,7 +59,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Powell Butte Park'
+        name: 'Powell Butte',
+        activities: ['Hiking', 'Sightseeing']
       },
       geometry: {
         type: 'Point',
@@ -64,7 +70,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Mount Tabor Park'
+        name: 'Mount Tabor',
+        activities: ['Hiking', 'Sightseeing', 'Biking']
       },
       geometry: {
         type: 'Point',
@@ -74,7 +81,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Mount Talbert Park'
+        name: 'Mount Talbert',
+        activities: ['Hiking', 'Trail Running', 'Mountain Biking']
       },
       geometry: {
         type: 'Point',
@@ -84,7 +92,8 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Saltzman Trail at North Forest Park'
+        name: 'Saltzman Trail at Forest Park',
+        activities: ['Hiking', 'Trail Running', 'Mountain Biking']
       },
       geometry: {
         type: 'Point',
@@ -94,17 +103,18 @@ const markers = {
     {
       type: 'Feature',
       properties: {
-        name: 'Milo McIver State Park'
+        name: 'Kelly Point Park',
+        activities: ['Hiking', 'Swimming', 'Bird Watching']
       },
       geometry: {
         type: 'Point',
-        coordinates: [-122.37758874893187, 45.309349030516124]
+        coordinates: [-122.76329040527344, 45.64608830455222]
       }
     }
   ]
 };
 
-const layerIDs = [];
+let filteredMarkers = [];
 const inputText = document.getElementById('menu-filter');
 
 mapboxgl.accessToken =
@@ -113,7 +123,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: 'map', // Container ID
   style: 'mapbox://styles/mapbox/dark-v10', // Map style
-  center: [-122.675, 45.5051], // Starting position [lng, lat]
+  center: [-122.675, 45.525], // Starting position [lng, lat]
   zoom: 10 // Starting zoom level
 });
 
@@ -137,6 +147,7 @@ map.on('load', () => {
     let item = document.createElement('a');
     item.className = 'menu-items';
     let name = feature.properties.name;
+    let LayerID = name;
     item.textContent = name;
     item.addEventListener('click', () => {
       popup.setLngLat(feature.geometry.coordinates);
@@ -145,29 +156,23 @@ map.on('load', () => {
     });
     menuItems.appendChild(item);
 
-    map.addLayer({
-      id: name,
-      source: 'markers',
-      type: 'circle',
-      paint: {
-        'circle-radius': 10,
-        'circle-color': '#BADA55'
-      }
-    });
-    layerIDs.push(name);
+    if (!map.getLayer(LayerID)) {
+      map.addLayer({
+        id: LayerID,
+        source: 'markers',
+        type: 'circle',
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#BADA55'
+        },
+        filter: ['==', 'name', name]
+      });
+      filteredMarkers.push(LayerID);
+    }
   });
-
-  // map.addLayer({
-  //   id: 'points',
-  //   source: 'markers',
-  //   type: 'circle',
-  //   paint: {
-  //     'circle-radius': 10,
-  //     'circle-color': '#BADA55'
-  //   }
-  // });
 });
 
+//Function to filter items in navBar
 function filterInput() {
   let input = document.getElementById('menu-filter').value;
   input = input.toLowerCase();
@@ -180,17 +185,14 @@ function filterInput() {
       names[i].style.display = 'list-item';
     }
   }
-}
 
-inputText.addEventListener('keyup', function(e) {
-  // If the input value matches a layerID set
-  // it's visibility to 'visible' or else hide it.
-  let value = e.target.value.trim().toLowerCase();
-  layerIDs.forEach(name => {
-    map.setLayoutProperty(
-      name,
-      'visibility',
-      name.indexOf(value) > -1 ? 'visible' : 'none'
-    );
+  let matchExp = new RegExp(input, 'gi');
+  let matchedID = filteredMarkers.filter(layer => matchExp.test(layer));
+  filteredMarkers.forEach(function(layerID) {
+    if (matchedID.includes(layerID)) {
+      map.setLayoutProperty(layerID, 'visibility', 'visible');
+    } else {
+      map.setLayoutProperty(layerID, 'visibility', 'none');
+    }
   });
-});
+}
