@@ -32,8 +32,8 @@ body {
   font-size: 12px;
 }
 
-.navbar ul {
-  margin: 8px 0 0 0;
+ul {
+  margin: 0;
   list-style: none;
 }
 
@@ -57,14 +57,14 @@ body {
 }
 
 #menu-filter {
-  width: 95%;
-  height: 50px;
+  width: auto;
+  height: auto;
   background: #2b303b;
   border: none;
   font-size: 10pt;
   float: left;
   color: #fff;
-  padding: 1rem;
+  padding: 1.5rem;
   margin: 0.5rem;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
@@ -73,7 +73,7 @@ body {
 .side-nav h3 {
   color: #fff;
   font-size: 20px;
-  padding: 1rem;
+  padding: 5rem 0.5rem 1rem;
 }
 
 .side-nav #btn-close {

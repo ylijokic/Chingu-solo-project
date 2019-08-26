@@ -128,7 +128,7 @@ const map = new mapboxgl.Map({
 });
 
 const popup = new mapboxgl.Popup({
-  closeButton: false
+  closeButton: true
 });
 
 const menuItems = document.getElementById('menu-item');
@@ -151,7 +151,12 @@ map.on('load', () => {
     item.textContent = name;
     item.addEventListener('click', () => {
       popup.setLngLat(feature.geometry.coordinates);
-      popup.setText(feature.properties.name);
+      popup.setHTML(
+        `<ul>
+          <li>Name: ${feature.properties.name}</li>
+          <li>Activities: ${feature.properties.activities}</li>
+        </ul>`
+      );
       popup.addTo(map);
     });
     menuItems.appendChild(item);
