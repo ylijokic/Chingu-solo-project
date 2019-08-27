@@ -6,6 +6,8 @@ function openSideMenu() {
 
 function closeSideMenu() {
   document.getElementById('side-menu').style.width = '0px';
+  document.getElementById('menu-filter').value = '';
+  filterInput();
   //Pushes Main Content With Side Nav:
   // document.getElementById('main').style.marginLeft = '0px';
 }

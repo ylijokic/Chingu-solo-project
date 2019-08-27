@@ -1,3 +1,4 @@
+//GeoJSON data points for Portland Parks
 const markers = {
   type: 'FeatureCollection',
   features: [
@@ -114,12 +115,17 @@ const markers = {
   ]
 };
 
+//Empty Array to store features
 let filteredMarkers = [];
+
+//Input text for search filter
 const inputText = document.getElementById('menu-filter');
 
+//Mapbox GL JS access
 mapboxgl.accessToken =
   'pk.eyJ1IjoieWxpam9raWMiLCJhIjoiY2p6YXMzOWYyMDA0bTNocnBkcWE5bThvbSJ9.tIcLrrsbnckIrFS_4D8Sug';
 
+//Map object set to style, location, and zoom
 const map = new mapboxgl.Map({
   container: 'map', // Container ID
   style: 'mapbox://styles/mapbox/dark-v10', // Map style
@@ -127,14 +133,15 @@ const map = new mapboxgl.Map({
   zoom: 10 // Starting zoom level
 });
 
+//Popup Object
 const popup = new mapboxgl.Popup({
   closeButton: true
 });
 
+//List of Parks in Side Nav
 const menuItems = document.getElementById('menu-item');
 
-// After the map style has loaded on the page,
-// add a source layer and default styling for a single point
+// Add the GeoJSON data to map
 map.on('load', () => {
   map.addSource('markers', {
     type: 'geojson',
@@ -143,12 +150,15 @@ map.on('load', () => {
 
   menuItems.innerHTML = '';
 
+  //Iterate though different parks and create sidenav links
   markers.features.forEach(feature => {
     let item = document.createElement('a');
     item.className = 'menu-items';
     let name = feature.properties.name;
     let LayerID = name;
     item.textContent = name;
+
+    //Add popup to point on side-nav link
     item.addEventListener('click', () => {
       popup.setLngLat(feature.geometry.coordinates);
       popup.setHTML(
@@ -177,7 +187,7 @@ map.on('load', () => {
   });
 });
 
-//Function to filter items in navBar
+//Function to filter items in sidenav search
 function filterInput() {
   let input = document.getElementById('menu-filter').value;
   input = input.toLowerCase();
